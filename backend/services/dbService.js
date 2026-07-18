@@ -9,9 +9,15 @@ let pool;
 
 if (isPostgres) {
   const { Pool } = require('pg');
-  pool = new Pool({
+  const poolConfig = {
     connectionString: dbUrl
-  });
+  };
+  if (dbUrl.includes('rds.amazonaws.com') || process.env.NODE_ENV === 'production') {
+    poolConfig.ssl = {
+      rejectUnauthorized: false
+    };
+  }
+  pool = new Pool(poolConfig);
   console.log('Database Service: Using PostgreSQL connection.');
 } else {
   const sqlite3 = require('sqlite3').verbose();
