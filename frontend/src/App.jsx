@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 
 // Sub-component: Main Application after Auth
+const API_BASE_URL = import.meta.env.PROD ? 'https://hwnsabn8pk.execute-api.eu-north-1.amazonaws.com/default/tutor-backend-api' : '';
+
 const TutorApp = () => {
   const { user, token, logout } = useAuth();
   
@@ -64,7 +66,7 @@ const TutorApp = () => {
   // Load Dashboard Data
   const loadDashboard = async () => {
     try {
-      const res = await fetch('/api/profile', {
+      const res = await fetch(API_BASE_URL + '/api/profile', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -81,7 +83,7 @@ const TutorApp = () => {
   // Load Materials List
   const loadMaterials = async () => {
     try {
-      const res = await fetch('/api/materials/list', {
+      const res = await fetch(API_BASE_URL + '/api/materials/list', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -96,7 +98,7 @@ const TutorApp = () => {
   // Load Recommendations
   const loadRecommendations = async () => {
     try {
-      const res = await fetch('/api/materials/recommend', {
+      const res = await fetch(API_BASE_URL + '/api/materials/recommend', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -111,7 +113,7 @@ const TutorApp = () => {
   // Load Chat History
   const loadChatHistory = async () => {
     try {
-      const res = await fetch('/api/tutor/history', {
+      const res = await fetch(API_BASE_URL + '/api/tutor/history', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -155,7 +157,7 @@ const TutorApp = () => {
     setSelectedAnswer('');
     
     try {
-      const res = await fetch('/api/quiz/generate', {
+      const res = await fetch(API_BASE_URL + '/api/quiz/generate', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -202,7 +204,7 @@ const TutorApp = () => {
     });
 
     try {
-      const res = await fetch('/api/quiz/submit', {
+      const res = await fetch(API_BASE_URL + '/api/quiz/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -246,7 +248,7 @@ const TutorApp = () => {
     setChatMessages(prev => [...prev, localUserMsg]);
     
     try {
-      const res = await fetch('/api/tutor/chat', {
+      const res = await fetch(API_BASE_URL + '/api/tutor/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -281,7 +283,7 @@ const TutorApp = () => {
     
     setUploadLoading(true);
     try {
-      const res = await fetch('/api/materials/upload', {
+      const res = await fetch(API_BASE_URL + '/api/materials/upload', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -321,7 +323,7 @@ const TutorApp = () => {
     setChatMessages(prev => [...prev, localUserMsg]);
     
     try {
-      const res = await fetch('/api/tutor/chat', {
+      const res = await fetch(API_BASE_URL + '/api/tutor/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
