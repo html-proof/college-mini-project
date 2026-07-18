@@ -24,3 +24,8 @@ Thumbs.db
 
 # Build outputs
 frontend/dist/
+
+# Uploaded assets
+backend/uploads/*
+!backend/uploads/.gitkeep
+
