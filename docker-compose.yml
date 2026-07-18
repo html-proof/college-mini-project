@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: tutor_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tutor_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tutor_network
+
+  backend:
+    build: ./backend
+    container_name: tutor_backend
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres_db:5432/tutor_db
+      - NODE_ENV=production
+    depends_on:
+      - postgres_db
+    networks:
+      - tutor_network
+
+  frontend:
+    build: ./frontend
+    container_name: tutor_frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - tutor_network
+
+volumes:
+  postgres_data:
+    name: tutor_postgres_data
+
+networks:
+  tutor_network:
+    driver: bridge
